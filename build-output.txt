@@ -1,0 +1,28 @@
+﻿   Γû▓ Next.js 15.5.28
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 3.0min
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/6) ...
+   Generating static pages (1/6) 
+   Generating static pages (2/6) 
+   Generating static pages (4/6) 
+ Γ£ô Generating static pages (6/6)
+node.exe : 
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+> Build error occurred
+[Error: EBUSY: resource busy or locked, copyfile 'F:\Websites\Food-Web\.next\server\app\_not-found.html' 
+-> 'F:\Websites\Food-Web\.next\server\pages\404.html'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'copyfile',
+  path: 'F:\\Websites\\Food-Web\\.next\\server\\app\\_not-found.html',
+  dest: 'F:\\Websites\\Food-Web\\.next\\server\\pages\\404.html'
+}

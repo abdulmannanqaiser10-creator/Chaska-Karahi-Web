@@ -1,0 +1,15 @@
+# Local-only files that must never reach the Vercel build.
+.env
+.env.local
+.env.example
+.next
+tsconfig.tsbuildinfo
+.vercel
+
+# Generator scratch and one-shot backups: photo-import.mjs reads vibe_images at dev time
+# only, and the deployed app serves from public/photos.
+/backend/vibe_images
+/vibe_images
+/.scratch
+/backend/scripts/menu-replace-backup.json
+/backend/scripts/brand-db-backup.json

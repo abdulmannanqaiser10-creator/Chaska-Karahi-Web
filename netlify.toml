@@ -1,0 +1,45 @@
+# Netlify configuration — Chaska Koyla Karahi single site
+# Serves: / (customer website) and /api/images (backend).
+# Netlify's Next.js runtime (OpenNext adapter) compiles the App Router, route handlers
+# and static assets — it is applied automatically during `netlify deploy --build`.
+
+[build]
+  # Install from the repo root so the sibling `backend/` package resolves via workspaces,
+  # then build the Next.js app in `frontend/`.
+  base = "."
+  command = "npm run build"
+  publish = "frontend/.next"
+  # Edge Functions source directory (explicit so every command resolves it).
+  # strip-injection.ts removes Netlify's edge-injected <head> comment that
+  # otherwise causes React hydration error #418 on every page.
+  edge_functions = "netlify/edge-functions"
+
+[build.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
+  # Neon Postgres is external; the app connects via DATABASE_URL at request time.
+  # Node must match the runtime the local build was verified against (Next 15 requires >= 18.18).
+  NODE_VERSION = "22"
+
+[site]
+  name = "chaska-koyla-karahi"
+
+# Retired marketing pages — send old bookmarks to the storefront.
+[[redirects]]
+  from = "/about"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/offers"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/locations"
+  to = "/"
+  status = 301

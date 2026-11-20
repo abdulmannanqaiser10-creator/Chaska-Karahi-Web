@@ -1,0 +1,534 @@
+@import "tailwindcss";
+
+/*
+  Chaska Koyla Karahi design tokens.
+  Palette: forest green + golden amber on warm cream, deep charcoal for the dark bands.
+  Token names stay generic (paper/surface/heading/accent) so a palette swap never
+  leaves a colour-specific name describing a different colour.
+*/
+@theme {
+  --color-paper: #faf8f3;
+  --color-paper-2: #f5f1e8;
+  --color-paper-3: #efe9dc;
+
+  --color-accent: #276b38;
+  --color-accent-bright: #2f8043;
+  --color-accent-deep: #12321d;
+  --color-accent-soft: #e7f1e8;
+  --color-on-accent: #ffffff;
+
+  --color-surface: #ffffff;
+  --color-surface-2: #f7f4ed;
+  --color-surface-3: #efeae0;
+  --color-surface-hover: #fdfbf6;
+
+  --color-heading: #10140f;
+  --color-ink: #171c16;
+  --color-muted: #71776f;
+  --color-line: #e9e5dc;
+  --color-line-strong: #d8d2c4;
+
+  --color-brand: #276b38;
+  --color-brand-dark: #1d5328;
+  --color-brand-deep: #12321d;
+  --color-brand-light: #e7f1e8;
+
+  --color-charcoal: #10140f;
+  --color-coal: #12321d;
+
+  --color-gold: #ffbd45;
+  --color-gold-deep: #eba52d;
+  --color-gold-soft: #fff4dd;
+  /* The readable end of the brand gold: bright #ffbd45 fails contrast on cream and
+     white, so wordmarks on light surfaces drop to the amber the signboard shades into. */
+  --color-gold-ink: #8a5f16;
+
+  --color-success: #15803d;
+  --color-danger: #b91c1c;
+  --color-warning: #b45309;
+  --color-info: #1d4ed8;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-heading: var(--font-playfair), ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --font-hand: var(--font-caveat), 'Segoe Script', cursive;
+  --font-urdu: var(--font-nastaliq), 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+
+  --shadow-premium: 0 1px 2px rgba(16, 20, 15, 0.05), 0 14px 34px -16px rgba(16, 20, 15, 0.22);
+  --shadow-card: 0 1px 2px rgba(16, 20, 15, 0.04), 0 6px 18px -10px rgba(16, 20, 15, 0.14);
+  --shadow-gold: 0 0 0 1px rgba(255, 189, 69, 0.34), 0 18px 40px -20px rgba(235, 165, 45, 0.45);
+
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.4s ease-out both;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+}
+
+@layer base {
+  /* The header is fixed, so content is padded by its height and the hero pulls back
+     up by the same amount to sit underneath it. `--header-bar-h` is the row the logo and
+     cart live in; while the delivery/pickup bar is stacked onto its own second row the
+     page must clear both, which is why `--header-h` is the larger one below xl. */
+  :root {
+    --header-bar-h: 4rem;
+    /* Second row holds delivery/pickup + area on phones and tablets. */
+    --header-h: calc(var(--header-bar-h) + 3.25rem);
+  }
+
+  /* 80rem is Tailwind's `xl`, the point where the picker moves up into the bar. */
+  @media (min-width: 80rem) {
+    :root {
+      --header-bar-h: 4.75rem;
+      --header-h: var(--header-bar-h);
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: var(--color-paper);
+    background-image:
+      radial-gradient(900px 480px at 12% -8%, rgba(39, 107, 56, 0.06), transparent 65%),
+      radial-gradient(760px 420px at 92% 4%, rgba(255, 189, 69, 0.14), transparent 70%);
+    background-attachment: fixed;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (max-width: 640px) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    color: var(--color-heading);
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  h3,
+  h4 {
+    letter-spacing: -0.01em;
+  }
+
+  /* Lining figures plus tabular spacing keep prices and order numbers on a ruler. */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background-color: rgba(255, 189, 69, 0.45);
+    color: var(--color-heading);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition-all duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-md {
+    @apply px-5 py-2.5;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  .btn-primary {
+    @apply bg-accent text-on-accent hover:bg-accent-bright hover:shadow-[0_12px_28px_-14px_rgba(39,107,56,0.85)] active:scale-[0.98];
+  }
+
+  /* The reference's golden CTA: amber fill, charcoal text. */
+  .btn-gold {
+    @apply bg-gold text-charcoal hover:bg-gold-deep hover:shadow-[0_12px_28px_-14px_rgba(235,165,45,0.9)] active:scale-[0.98];
+  }
+
+  .btn-warm {
+    @apply bg-charcoal text-paper hover:bg-coal active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply border border-accent/30 bg-surface text-accent hover:border-accent/70 hover:bg-accent-soft active:scale-[0.98];
+  }
+
+  /* Outlined variant for use on the dark hero. */
+  .btn-on-dark {
+    @apply border border-white/25 bg-white/5 text-paper hover:border-gold/60 hover:bg-white/12 active:scale-[0.98];
+  }
+
+  .btn-danger {
+    @apply border border-danger/40 bg-surface text-danger hover:bg-danger/10 active:scale-[0.98];
+  }
+
+  /* Add to Cart sits as a soft-edged block button under the price. */
+  .btn-cart {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent transition-all duration-200 ease-out hover:bg-accent-bright active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-line disabled:text-muted;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-card transition-all duration-300 ease-out;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-gold;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted;
+  }
+
+  .eyebrow {
+    @apply text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-accent;
+  }
+
+  .glass {
+    background-color: rgba(250, 248, 243, 0.88);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  .hairline {
+    @apply border-line;
+    background-image: linear-gradient(90deg, transparent, var(--color-line-strong) 22%, var(--color-line-strong) 78%, transparent);
+    height: 1px;
+  }
+
+  /* Rows carry a lot of numbers, so keep them even and airy. */
+  .card table {
+    line-height: 1.5;
+  }
+
+  .card table th {
+    letter-spacing: 0.08em;
+  }
+
+  .card table td {
+    letter-spacing: 0.006em;
+  }
+}
+
+@layer utilities {
+  /* ---------- scroll reveals ----------
+     The hidden state is gated on .js (set by the inline script in the root layout)
+     so the page is still readable if the reveal driver never runs. */
+  /* Reveals stay visible by default. Animation only softens the entrance after
+     `.is-in` is applied — never leave blank holes on phones if the observer misses. */
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  @media (min-width: 768px) {
+    html.js [data-reveal]:not(.is-in) {
+      opacity: 0.01;
+      transform: translate3d(0, 18px, 0);
+    }
+
+    html.js [data-reveal='left']:not(.is-in) {
+      transform: translate3d(-20px, 0, 0);
+    }
+
+    html.js [data-reveal='right']:not(.is-in) {
+      transform: translate3d(20px, 0, 0);
+    }
+
+    html.js [data-reveal='scale']:not(.is-in) {
+      transform: scale(0.97);
+    }
+  }
+
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---------- 3D ---------- */
+  .scene {
+    perspective: 1100px;
+  }
+
+  .tilt {
+    position: relative;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translate3d(0, var(--tilt-lift, 0), 0);
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.35s ease;
+  }
+
+  .tilt:hover {
+    border-color: rgba(39, 107, 56, 0.3);
+    box-shadow: var(--shadow-gold);
+  }
+
+  .tilt-face {
+    transform: translateZ(26px);
+  }
+
+  .tilt-sheen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(320px 200px at var(--sheen-x, 50%) var(--sheen-y, 0%), rgba(255, 189, 69, 0.16), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  .tilt-sheen:hover::after {
+    opacity: 1;
+  }
+
+  .depth-ring {
+    transform: translateZ(60px);
+  }
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -14px, 0);
+    }
+  }
+
+  @keyframes drift {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(10px, -12px, 0) rotate(4deg);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Light sweep across a button or heading on hover. */
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .shine:hover::before,
+  .shine:focus-visible::before {
+    transform: translateX(120%);
+  }
+
+  .lift {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .lift:hover {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: var(--shadow-gold);
+  }
+
+  .float-slow {
+    animation: float-slow 7s ease-in-out infinite;
+  }
+
+  .drift {
+    animation: drift 16s ease-in-out infinite;
+  }
+
+  .spin-slow {
+    animation: spin-slow 48s linear infinite;
+  }
+
+  .breathe {
+    animation: breathe 9s ease-in-out infinite;
+  }
+
+  .stagger > * {
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .stagger > *:nth-child(2) { animation-delay: 90ms; }
+  .stagger > *:nth-child(3) { animation-delay: 180ms; }
+  .stagger > *:nth-child(4) { animation-delay: 270ms; }
+  .stagger > *:nth-child(5) { animation-delay: 360ms; }
+  .stagger > *:nth-child(6) { animation-delay: 450ms; }
+
+  /* Animated underline for nav links. */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--color-accent-bright), var(--color-accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  /* Handwritten margin notes, the same voice as the reference's script accents. */
+  .hand {
+    font-family: var(--font-hand);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+  }
+
+  /* Urdu dish and section names. Nastaliq slants below the baseline and needs room for
+     its descenders, so it always gets its own line box and never inherits the UI's 1.5. */
+  .urdu {
+    font-family: var(--font-urdu);
+    direction: rtl;
+    unicode-bidi: isolate;
+    line-height: 2;
+  }
+
+  /* The category rail scrolls by drag/wheel but never shows a bar. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .card,
+    .btn {
+      animation: none;
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    html.js [data-reveal],
+    html.js [data-reveal='left'],
+    html.js [data-reveal='right'],
+    html.js [data-reveal='scale'],
+    [data-reveal].is-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .tilt,
+    .lift,
+    .lift:hover {
+      transform: none;
+    }
+
+    .float-slow,
+    .drift,
+    .spin-slow,
+    .breathe,
+    .stagger > * {
+      animation: none;
+    }
+
+    .shine::before {
+      display: none;
+    }
+
+    .nav-link::after {
+      transition: none;
+    }
+  }
+}
